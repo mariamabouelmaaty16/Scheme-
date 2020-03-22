@@ -1,0 +1,7 @@
+
+(define (MergeCar lat1 lat2)
+  (map (lambda (a1 a2)
+         (list a1 a2))
+        lat1 lat2))
+        
+ ;; print (MergeCar '(q w e r t y u i)'(a s d f g h j k))
