@@ -2,3 +2,10 @@
   (map length lst))
   
   ;;print - (MapLen '((a b c) (d) (e f) (g h i j) (k l)))
+
+;;
+
+(define (MapLen2 lst)
+  (map (lambda (l) (length l))
+       lst))
+;; print (MapLen2 '((a b c) (d) (e f) (g h i j) (k l)))
