@@ -21,3 +21,25 @@
        lat))
 
 ;;print (IsLat? '(q w e r t y u i o p))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Ex 5 hint 
+
+(define (atom? x)
+  (and (not (pair? x))
+       (not (null? x))))
+
+;;
+
+(define (IsLat? lat)
+  (= (length lat)
+     (apply +
+            (map (lambda (a)
+                   (if (atom? a) 1 0))
+                 lat))))
+                 
+                 
+;; print (IsLat? '( q w e r t y u i o p))
