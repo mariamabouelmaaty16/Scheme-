@@ -1,0 +1,3 @@
+(define (SumLen lst)
+  (apply + (map length lst)))
+  ;; print (SumLen '((q) (w e r) (t) (y u i o) (p a s)))
