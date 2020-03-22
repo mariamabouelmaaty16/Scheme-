@@ -1,0 +1,18 @@
+(define depth-code
+  '(define (depth tree)
+     (cond ((null? tree) 0)
+            ((not (pair? tree)) 0)
+            (else
+             (max (+ 1 (depth (car tree)))
+                  (depth (cdr tree)))))))
+;;
+(define (atom? x)
+  (and (not null? x))
+       (not (pair? x))))
+
+;;
+(define (TreeMember? item tree)
+  (cond ((null? tree) #f)
+        ((atom? tree) (equal? item tree))
+        (else (or (TreeMember? item (car tree))
+                  (TreeMember? item (cdr tree))))))
