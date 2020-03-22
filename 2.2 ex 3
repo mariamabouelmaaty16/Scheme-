@@ -1,0 +1,5 @@
+;;Write a function that returns the sum of all lengths of a list of lists ‘((q) (w e r) (t) (y u i o) (p a s)) 12
+
+(define (SumLen lst)
+  (apply + (map length lst)))
+  ;; print (SumLen '((q) (w e r) (t) (y u i o) (p a s)))
