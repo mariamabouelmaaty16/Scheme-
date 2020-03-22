@@ -8,3 +8,13 @@
 
 
 ;; print (inList? 'a '(g t r a s u i o p))
+
+
+;;; genereate 0 1 
+
+(define (inList? item lat)
+  (> (apply + (map (lambda (x)
+                     (if (equal? x item) 1 0)) lat))
+     0))
+     
+;; print (inList? 'a '(g t r a s u i o p))    
