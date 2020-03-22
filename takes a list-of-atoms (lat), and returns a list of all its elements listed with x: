@@ -1,0 +1,8 @@
+(define (consListWith sym lst)
+  (map (lambda (a)
+         (list sym a))
+       lst))
+       
+;; 
+;;(consListWith 'x '(a b c d e f g h i j))
+
