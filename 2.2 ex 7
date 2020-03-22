@@ -1,0 +1,15 @@
+;;Write a function that takes a list of pairs
+;;(<symbol> <number>) and filters out all pairs
+;;whose second element <number> is greater than
+;;a certain threshold:
+
+(define (filter-cost value a-list)
+  (apply append
+         (map (lambda (x)
+                (if (< (cadr x) value) (list x) '()))
+              a-list)))
+;;
+(define shop'((water 8) (beans 4) (pizza 10)
+(rice 5) (lettuce 7) (butter 4)))
+
+;; print (filter-cost 6 shop)
