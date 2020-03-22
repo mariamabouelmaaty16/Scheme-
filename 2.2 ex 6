@@ -1,0 +1,10 @@
+;; Write a predicate inlist? that tells you
+;; whether a symbol belongs to a list of atoms
+;;;(inlist? ‘a ‘(g t r a s u i o p))
+
+(define (inList? item lat)
+  (map (lambda (x)
+         (equal? x item)) lat))
+
+
+;; print (inList? 'a '(g t r a s u i o p))
