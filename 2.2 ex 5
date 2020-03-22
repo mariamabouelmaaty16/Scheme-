@@ -1,0 +1,23 @@
+;; Write a predicate that tests whether a list is
+;;;a list of atoms (lat)
+;;‘(q w e r t y u i o p)
+;;#t
+;;‘(q w e r (t) y u (i o) p)
+;;;#f
+
+
+
+
+
+(define (atom? x)
+  (and (not (pair? x))
+       (not (null? x))))
+
+;;
+
+(define (IsLat? lat)
+  (map (lambda (a)
+         (atom? a))
+       lat))
+
+;;print (IsLat? '(q w e r t y u i o p))
