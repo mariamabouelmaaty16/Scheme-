@@ -1,6 +1,6 @@
 (define (consListWith sym lst)
   (map (lambda (a)
-         (list sym a))
+         (cons sym a)) ;; if you cons atom you get a result with (.)
        lst))
        
 ;; 
