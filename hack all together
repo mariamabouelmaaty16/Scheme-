@@ -1,0 +1,202 @@
+(define depth-code
+  '(define (depth tree)
+     (cond ((null? tree) 0)
+            ((not (pair? tree)) 0)
+            (else
+             (max (+ 1 (depth (car tree)))
+                  (depth (cdr tree)))))))
+;;
+(define (atom? x)
+  (and (not (null? x))
+       (not (pair? x))))
+
+;;Does symbol item belong to tree?
+(define (TreeMember? item tree)
+  (cond ((null? tree) #f)
+        ((atom? tree) (equal? item tree))
+        (else (or (TreeMember? item (car tree))
+                  (TreeMember? item (cdr tree))))))
+
+;;
+(define t2 '(q (w (e)) (r (t (y))) (u) (i (o) p)))
+
+
+
+;;Counting ‘leaves’
+
+(define (count-leaves tree)
+  (cond ((null? tree) 0)
+        ((not (pair? tree)) 1)
+        (else
+         (+ (count-leaves (car tree))
+            (count-leaves (cdr tree))))))
+
+;;
+
+(define t1 '((a (b)) ((c d) (e (f))) (g (h (i)))))
+
+;; Count occurrences
+(define (count-occurrences item tree)
+  (cond ((null? tree) 0)
+        ((not (pair? tree))
+         (if (equal? item tree) 1 0))
+        (else
+         (+ (count-occurrences item (car tree))
+            (count-occurrences item (cdr tree))))))
+;;
+(define t3 '(q (w e) ( r t (y e)) (u ((e))) (i (o) e) (p)))
+
+
+;;;
+;;; Flatten
+
+(define (flatten tree)
+  (cond ((null? tree) '())
+        ((atom? tree) (list tree))
+         (else
+          (append (flatten (car tree))
+                  (flatten (cdr tree))))))
+
+;;
+(define t10
+  '(a (b (c)) (d (e (f (g h)))) ((i) j (k)) l (m)))
+;;
+
+
+;; Replacing elements in a Tree
+
+
+
+
+
+
+
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x)
+                 x)))
+(define (improve guess x)
+  (average guess (/ x guess)))
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(define (mysqrt x)
+  (sqrt-iter 1.0 x))
+
+
+
+(define source-code
+  '( (define (sqrt-iter guess x)
+       (if (good-enough? guess x)
+           guess
+           (sqrt-iter (improve guess x)
+                      x)))
+     (define (improve guess x)
+       (average guess (/ x guess)))
+
+     (define (average x y)
+       (/ (+ x y) 2))
+     (define (good-enough? guess x)
+       (< (abs (- (square guess) x)) 0.001))
+     (define (mysqrt x)
+       (sqrt-iter 1.0 x)) ))
+
+;;Example 
+
+(define (divider? function)
+  (TreeMember? '/ function ))
+
+;;
+(define (atom? l)
+  (and (not (null? l))
+       (not (pair? l))))
+;;
+(define (TreeMember? item tree)
+  (cond ((null? tree) #f)
+        ((atom? tree) (equal? item tree))
+        (else (or (TreeMember? item (car tree))
+                  (TreeMember? item (cdr tree))))))
+
+;; stores all result in a list 
+(define functions-that-divide
+  (filter divider? source-code))
+
+
+;;;
+
+(define (make-new-machine)
+  (let ((pc (make-register 'pc))
+        (flag (make-register 'flag))
+        (stack (make-stack))
+        (the-instruction-sequence '()))
+    (let ((the-ops
+           (list (list 'initialize-stack
+                       (lambda () (stack 'initialize)))))
+          (register-table
+           (list (list 'pc pc) (list 'flag flag))))
+      (define (allocate-register name)
+        (if (assoc name register-table)
+            (error "Multiply defined register: " name)
+            (set! register-table
+                  (cons (list name (make-register name))
+                        register-table)))
+        'register-allocated)
+      (define (lookup-register name)
+        (let ((val (assoc name register-table)))
+          (if val
+              (cadr val)
+              (error "Unknown register:" name))))
+      (define (execute)
+        (let ((insts (get-contents pc)))
+          (if (null? insts)
+              'done
+              (begin
+                ((instruction-execution-proc (car insts)))
+                (execute)))))
+      (define (dispatch message)
+        (cond ((eq? message 'start)
+               (set-contents! pc the-instruction-sequence)
+               (execute))
+              ((eq? message 'install-instruction-sequence)
+               (lambda (seq)
+                 (set! the-instruction-sequence seq)))
+              ((eq? message 'allocate-register)
+               allocate-register)
+              ((eq? message 'get-register)
+               lookup-register)
+              ((eq? message 'install-operations)
+               (lambda (ops)
+                 (set! the-ops (append the-ops ops))))
+              ((eq? message 'stack) stack)
+              ((eq? message 'operations) the-ops)
+              (else (error "Unknown request: MACHINE"
+                           message))))
+      dispatch)))
+
+
+;;
+
+(define (complex-fns code)
+  (apply append
+         (map (lambda (f)
+                (if (> (Mapdepth f) 3)
+                    (list f) '()))
+              code)))
+
+;;You define a function that will map onto the sourcecode list
+;; The function mapped tests that depth > 3 
+              
+
+
+
+
+
+
+
+
+
+           
