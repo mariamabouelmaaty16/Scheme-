@@ -10,12 +10,38 @@
   (and (not (null? x))
        (not (pair? x))))
 
-;;
+;;Does symbol item belong to tree?
 (define (TreeMember? item tree)
   (cond ((null? tree) #f)
         ((atom? tree) (equal? item tree))
         (else (or (TreeMember? item (car tree))
                   (TreeMember? item (cdr tree))))))
 
+;;
+(define t2 '(q (w (e)) (r (t (y))) (u) (i (o) p)))
 
-;; down (TreeMember? 'pair? depth-code)
+
+
+;;Counting ‘leaves’
+
+(define (count-leaves tree)
+  (cond ((null? tree) 0)
+        ((not (pair? tree)) 1)
+        (else
+         (+ (count-leaves (car tree))
+            (count-leaves (cdr tree))))))
+
+;;
+
+(define t1 '((a (b)) ((c d) (e (f))) (g (h (i)))))
+
+;; Count occurrences
+(define (count-occurrences item tree)
+  (cond ((null? tree) 0)
+        ((not (pair? tree))
+         (if (equal? item tree) 1 0))
+        (else
+         (+ (count-occurrences item (car tree))
+            (count-occurrences item (cdr tree))))))
+;;
+(define t3 '(q (w e) ( r t (y e)) (u ((e))) (i (o) e) (p)))
